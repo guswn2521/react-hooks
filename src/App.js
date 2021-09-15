@@ -2,18 +2,23 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
-function App() {
-  const [item, setItem] = useState(1);
-  const incrementItem = () => setItem(item+1);
-  const decrementItem = () => setItem(item-1);
-  
+const useInput = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (event) => {
+    console.log(event.target);
+  };
+  return { value, onChange };
+};
+
+const App = () => {
+  const name = useInput("Ms.")
   return (
     <div className="App">
-      <h1>Hello {item} </h1>
-      <h2>Start editing to see some magic happen!</h2>
-      <button onClick={incrementItem}>Increment</button>
-      <button onClick={decrementItem}>Decrement</button>
-
+      <h1>Hello</h1>
+      <div style={{width: '100px' , height: '100px', backgroundColor: 'black' }}>
+        <input placeholder="Name" type="text" {...name} />
+      </div>
+      
     </div>
   );
 }
