@@ -16,7 +16,7 @@ const useTitle = (initialTitle)=>{
 
 const App = () => {
   const titleUpdater = useTitle("Loading...");
-  setTimeout(() => titleUpdater("Coffee"), 3000);
+  setTimeout(() => titleUpdater("Home"), 3000);
   
   return (
     <div className="App">
