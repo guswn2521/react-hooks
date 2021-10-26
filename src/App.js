@@ -1,27 +1,32 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 
-const useTitle = (initialTitle)=>{
-  const [title, setTitle] = useState(initialTitle);
-  const updateTitle = () =>{
-    const htmlTitle = document.querySelector('title');
-    htmlTitle.innerText = title;
-  };
-  useEffect(updateTitle, [title]);
-  return setTitle;
-};
-
-
+const useClick = (onClick) => {
+  // if (typeof onClick !== "function") {
+  //   return;
+  // }
+  const element = useRef();
+  useEffect(() => {
+    if (element.current) {
+      element.current.addEventListener('click', onClick);
+    }
+    return () => {
+      if (element.current) {
+        element.current.removeEventListener('click', onClick);
+      }
+    };
+  }, []);
+  return element;
+}
 
 const App = () => {
-  const titleUpdater = useTitle("Loading...");
-  setTimeout(() => titleUpdater("Home"), 3000);
-  
+  const sayHello = () => console.log('say Hello');
+  const title = useClick(sayHello);
   return (
     <div className="App">
-      <div>Hi</div>
-     
+      <div ref={title} >Hi</div>
+
     </div>
   );
 }
