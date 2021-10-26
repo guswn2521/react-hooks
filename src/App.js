@@ -3,11 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 
 
 const useClick = (onClick) => {
-  // if (typeof onClick !== "function") {
-  //   return;
-  // }
+  
   const element = useRef();
   useEffect(() => {
+    if (typeof onClick !== "function") {
+      return;
+    }
     if (element.current) {
       element.current.addEventListener('click', onClick);
     }
