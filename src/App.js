@@ -1,27 +1,23 @@
 import './App.css';
 import { useEffect, useRef, useState } from 'react';
 
-const useConfirm = (message="", callback, rejection) =>{
-  if(typeof callback !== "function"){
-    return;
+
+const usePreventLeave = () => {
+  const listener = (event) => {
+    event.preventDefault();
+    event.returnValue = "";
   }
-  const confirmAction = () => {
-    if(window.confirm(message)){
-      callback();
-    }else{
-      rejection();
-    }
-  }
-  return confirmAction;
+  const enablePrevent = () => window.addEventListener("beforeunload", listener);
+  const disablePrevent = () => window.removeEventListener("beforeunload", listener);
+  return {enablePrevent, disablePrevent};
 }
 
 const App = () => {
-  const deleteWord = () => console.log("Deleting the word");
-  const abort = () => console.log("Aborted");
-  const confirmDelete = useConfirm("Are you sure", deleteWord, abort);
+  const {enablePrevent, disablePrevent} = usePreventLeave();
   return (
     <div className="App">
-      <button onClick={confirmDelete}>Delete the words</button>
+     <button onClick={enablePrevent}>protect</button>
+     <button onClick={disablePrevent}>Unprotect</button>
 
     </div>
   );
